@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 6. WhatsApp Global Function
 window.openWhatsApp = (type = "Chat Request") => {
     // Your WhatsApp Number
-    const phoneNumber = "601136104271"; 
+    const phoneNumber = "60175566130"; 
     
     let message = `*${type} from Kan Mani Food Cart*\n`;
     message += `------------------------------\n`;
