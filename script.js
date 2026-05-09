@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.cart.push({ name, price });
             updateCartButton();
             
-            // Subtle feedback
+            // UI Feedback
             button.innerText = "Added!";
             button.style.background = "#c5a059";
             setTimeout(() => {
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalSpan = document.getElementById('grand-total');
         const timeDisplay = document.getElementById('request-time');
         
-        timeDisplay.innerText = "Order Time: " + new Date().toLocaleTimeString();
+        timeDisplay.innerText = "Requested on: " + new Date().toLocaleString();
         list.innerHTML = '';
         let total = 0;
 
@@ -95,9 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// 6. WhatsApp Global Function with updated number
+// 6. WhatsApp Global Function with updated number 0175566130
 window.openWhatsApp = (type = "Chat Request") => {
-    // Updated Phone Number (Starting with 6 for Malaysia)
+    // Corrected Phone Number for Malaysia
     const phoneNumber = "60175566130"; 
     
     let message = `*${type} from Kan Mani Food Cart*\n`;
@@ -113,9 +113,10 @@ window.openWhatsApp = (type = "Chat Request") => {
         message += `\n*Total Amount: RM ${total.toFixed(2)}*`;
         message += `\nPayment: Cash on Delivery`;
     } else {
-        message += "Hello! I have a question about your menu.";
+        message += "Hello! I would like to request an item or chat about my order.";
     }
 
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
 };
+        
