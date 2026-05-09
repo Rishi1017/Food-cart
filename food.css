@@ -229,3 +229,18 @@
     font-weight: bold;
 }
 
+.btn-chat {
+    background-color: #25D366; /* WhatsApp Green */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-chat:hover {
+    background-color: #128C7E;
+    transform: scale(1.05);
+}
