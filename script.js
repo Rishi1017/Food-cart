@@ -62,4 +62,21 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('cart-modal').style.display = 'none';
     };
 });
+window.openWhatsApp = () => {
+    // Replace this with your phone number (Start with 60 for Malaysia)
+    const phoneNumber = "60175566130"; 
+    
+    let message = "Hello Kan Mani Food Cart! I would like to request an item or chat about my order.";
+    
+    // Optional: If you want to send the cart items in the chat
+    if (typeof cart !== 'undefined' && cart.length > 0) {
+        message += "\n\nMy current cart has:";
+        cart.forEach(item => {
+            message += `\n- ${item.name} (RM ${item.price.toFixed(2)})`;
+        });
+    }
+
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+};
 
