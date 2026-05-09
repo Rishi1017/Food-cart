@@ -12,7 +12,7 @@ document.querySelectorAll('.btn-add').forEach((button) => {
         cart.push({ name, price });
         
         // Updates the number on the Cart button at the top
-        document.querySelector('.cart-btn').innerText = `Cart (${cart.length})`;
+        document.querySelector('.cart-btn').innerText = Cart (${cart.length});
         alert(name + " added to cart!");
     });
 });
