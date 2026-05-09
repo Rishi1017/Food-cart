@@ -1,58 +1,65 @@
-// This waits for the entire page to load first
 document.addEventListener('DOMContentLoaded', () => {
     let cart = [];
-
-    // Select the cart button
     const cartBtn = document.querySelector('.cart-btn');
 
     // 1. Add to Cart Logic
     document.querySelectorAll('.btn-add').forEach((button) => {
-        button.addEventListener('click', (e) => {
+        button.addEventListener('click', () => {
             const card = button.closest('.food-card');
             const name = card.querySelector('h3').innerText;
             const priceText = card.querySelector('.price').innerText;
-            
-            // This takes "RM 10.50" and turns it into 10.50
             const price = parseFloat(priceText.replace('RM', '').trim());
             
             cart.push({ name, price });
-            
-            // Update the button text - use BACKTICKS (the key next to 1)
-            cartBtn.innerText = `Cart (${cart.length})`;
-            alert(`${name} added to cart!`);
+            updateCartButton();
+            alert(`${name} added!`);
         });
     });
 
-    // 2. Open Cart Logic
+    function updateCartButton() {
+        cartBtn.innerText = `Cart (${cart.length})`;
+    }
+
+    // 2. Open Cart & Show Delete Buttons
     cartBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const modal = document.getElementById('cart-modal');
+        renderCart();
+        document.getElementById('cart-modal').style.display = 'block';
+    });
+
+    function renderCart() {
         const list = document.getElementById('cart-items-list');
         const totalSpan = document.getElementById('grand-total');
-        
         document.getElementById('request-time').innerText = "Requested on: " + new Date().toLocaleString();
 
         list.innerHTML = '';
         let total = 0;
 
-        if(cart.length === 0) {
+        if (cart.length === 0) {
             list.innerHTML = '<p>Your cart is empty.</p>';
         } else {
-            cart.forEach(item => {
-                list.innerHTML += `<p style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <span>${item.name}</span> 
-                    <span>RM ${item.price.toFixed(2)}</span>
-                </p>`;
+            cart.forEach((item, index) => {
+                list.innerHTML += `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span>${item.name} (RM ${item.price.toFixed(2)})</span>
+                    <button onclick="removeItem(${index})" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:0.7rem;">Delete</button>
+                </div>`;
                 total += item.price;
             });
         }
-
         totalSpan.innerText = total.toFixed(2);
-        modal.style.display = 'block';
-    });
+    }
 
-    // 3. Close Cart Logic
+    // 3. Delete Logic
+    window.removeItem = (index) => {
+        cart.splice(index, 1); // Removes 1 item at that position
+        updateCartButton();
+        renderCart(); // Refresh the list immediately
+    };
+
+    // 4. Close Logic
     document.querySelector('.close-modal').onclick = () => {
         document.getElementById('cart-modal').style.display = 'none';
     };
 });
+
