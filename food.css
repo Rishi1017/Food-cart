@@ -3,6 +3,8 @@
     --dark-bg: #111;
     --light-gray: #f4f4f4;
     --white: #ffffff;
+    --whatsapp-green: #25D366;
+    --whatsapp-dark: #128C7E;
 }
 
 * {
@@ -10,6 +12,12 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--white);
+    color: #333;
+    line-height: 1.6;
 }
 
 /* Navbar */
@@ -21,7 +29,8 @@
     background: var(--white);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .logo {
@@ -44,6 +53,11 @@
     text-decoration: none;
     color: #333;
     font-weight: 600;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--primary-gold);
 }
 
 .cart-btn {
@@ -53,12 +67,18 @@
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.cart-btn:hover {
+    background: var(--primary-gold);
 }
 
 /* Hero Section */
 .hero {
     height: 450px;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200');
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -66,6 +86,7 @@
     justify-content: center;
     text-align: center;
     color: var(--white);
+    padding: 0 20px;
 }
 
 .hero h1 {
@@ -76,13 +97,14 @@
 /* Menu Grid */
 .menu-container {
     padding: 60px 8%;
-    background: var(--white);
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .section-title {
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .filter-tabs {
@@ -90,6 +112,7 @@
     justify-content: center;
     gap: 15px;
     margin-bottom: 40px;
+    flex-wrap: wrap;
 }
 
 .tab {
@@ -99,29 +122,32 @@
     border-radius: 20px;
     cursor: pointer;
     font-weight: 500;
+    transition: 0.3s;
 }
 
-.tab.active {
-    background: black;
+.tab.active, .tab:hover {
+    background: var(--dark-bg);
     color: white;
-    border-color: black;
+    border-color: var(--dark-bg);
 }
 
 .food-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
 }
 
 .food-card {
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease;
+    background: var(--white);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .food-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
 .food-card img {
@@ -134,31 +160,40 @@
     padding: 20px;
 }
 
+.card-body h3 {
+    margin-bottom: 10px;
+}
+
 .card-body p {
     font-size: 0.9rem;
     color: #666;
-    margin: 10px 0;
+    margin-bottom: 15px;
 }
 
 .card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
 }
 
 .price {
     font-weight: 700;
-    color: #333;
+    color: var(--dark-bg);
+    font-size: 1.1rem;
 }
 
 .btn-add {
-    background: black;
+    background: var(--dark-bg);
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 8px 18px;
     border-radius: 5px;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: var(--primary-gold);
 }
 
 /* Chat Section */
@@ -169,78 +204,72 @@
 }
 
 .btn-chat {
-    background: black;
+    background-color: var(--whatsapp-green);
     color: white;
     border: none;
     padding: 15px 40px;
-    border-radius: 10px;
+    border-radius: 30px;
     margin-top: 20px;
     cursor: pointer;
     font-weight: 600;
+    font-size: 1rem;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.btn-chat:hover {
+    background-color: var(--whatsapp-dark);
+    transform: scale(1.05);
+}
+
+/* Modal / Cart Style */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
 }
 
 /* Footer */
 .main-footer {
     background: var(--dark-bg);
-    color: var(--white);
-    padding: 40px;
+    color: #999;
+    padding: 40px 20px;
     text-align: center;
 }
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 9999; 
-    left: 0; top: 0; 
-    width: 100%; height: 100%; 
-    background-color: rgba(0,0,0,0.6);
-}
-.modal-content {
-    background-color: white; 
-    margin: 15% auto; 
-    padding: 20px; 
-    border-radius: 15px; 
-    width: 80%; 
-    max-width: 400px;
-}
-/* This hides the cart until you click the button */
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 9999; 
-    left: 0; top: 0; 
-    width: 100%; height: 100%; 
-    background-color: rgba(0,0,0,0.6);
-}
 
-.modal-content {
-    background-color: white; 
-    margin: 15% auto; 
-    padding: 20px; 
-    border-radius: 15px; 
-    width: 80%; 
-    max-width: 400px;
-    position: relative;
-}
-
-.close-modal { 
-    float: right; 
-    font-size: 24px; 
-    cursor: pointer; 
-    font-weight: bold;
-}
-
-.btn-chat {
-    background-color: #25D366; /* WhatsApp Green */
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 30px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-chat:hover {
-    background-color: #128C7E;
-    transform: scale(1.05);
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .nav-links { display: none; } /* Simplified for now */
+    .hero h1 { font-size: 2.2rem; }
 }
