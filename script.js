@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.cart.push({ name, price });
             updateCartButton();
             
-            // Subtle feedback instead of annoying alerts
+            // Subtle feedback
             button.innerText = "Added!";
             button.style.background = "#c5a059";
             setTimeout(() => {
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCart();
     };
 
-    // 5. Checkout Logic (Confirm Order Button)
+    // 5. Checkout Logic
     checkoutBtn.addEventListener('click', () => {
         if (window.cart.length === 0) {
             alert("Please add items to your cart first!");
@@ -95,9 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// 6. WhatsApp Global Function
+// 6. WhatsApp Global Function with updated number
 window.openWhatsApp = (type = "Chat Request") => {
-    // Your WhatsApp Number
+    // Updated Phone Number (Starting with 6 for Malaysia)
     const phoneNumber = "60175566130"; 
     
     let message = `*${type} from Kan Mani Food Cart*\n`;
