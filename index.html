@@ -20,6 +20,26 @@
             </ul>
         </nav>
     </header>
+        <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="color: #c5a059;">Your Order</h2>
+            <p id="request-time" style="font-size: 0.8rem; color: #666;"></p>
+            <hr>
+            <div id="cart-items-list" style="margin: 20px 0; text-align: left;">
+                </div>
+            <div class="cart-total" style="border-top: 2px solid #eee; padding-top: 10px;">
+                <strong>Grand Total:RM <span id="grand-total">0.00</span></strong>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.9rem;">Payment: <strong>Cash on Delivery</strong></p>
+            <button class="btn-checkout" style="background: black; color: white; width: 100%; padding: 12px; border-radius: 8px; margin-top: 10px; border: none;">
+                Confirm Order
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
 
     <!-- Hero Section -->
     <section class="hero">
