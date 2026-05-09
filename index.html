@@ -3,108 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kan Mani Food Cart | Fresh Food Delivered</title>
+    <title>Kan Mani Food Cart | Lunas</title>
     <link rel="stylesheet" href="food.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="navbar">
-        <div class="logo">Kan Mani <span>Food Cart</span></div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="#">Menu</a></li>
-                <li><a href="#">Request Item</a></li>
-                <li><button class="cart-btn">Cart (0)</button></li>
-            </ul>
-        </nav>
-    </header>
-        <div id="cart-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 style="color: #c5a059;">Your Order</h2>
-            <p id="request-time" style="font-size: 0.8rem; color: #666;"></p>
-            <hr>
-            <div id="cart-items-list" style="margin: 20px 0; text-align: left;">
-                </div>
-            <div class="cart-total" style="border-top: 2px solid #eee; padding-top: 10px;">
-                <strong>Grand Total:RM <span id="grand-total">0.00</span></strong>
-            </div>
-            <p style="margin-top: 15px; font-size: 0.9rem;">Payment: <strong>Cash on Delivery</strong></p>
-            <button class="btn-checkout" style="background: black; color: white; width: 100%; padding: 12px; border-radius: 8px; margin-top: 10px; border: none;">
-                Confirm Order
-            </button>
-        </div>
-    </div>
+    <nav class="navbar">
+        <div class="logo">KAN <span>MANI</span></div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+        </ul>
+        <button class="cart-btn">Cart (0)</button>
+    </nav>
 
-    <script src="script.js"></script>
-    
-
-    <!-- Hero Section -->
-    <section class="hero">
+    <header class="hero">
         <div class="hero-content">
-            <h1>Fresh Food, Delivered Fast</h1>
-            <p>Browse our menu and order within a 5-10km radius for maximum freshness.</p>
+            <h1>Delicious Home Taste</h1>
+            <p>Freshly prepared food delivered to your heart in Lunas.</p>
         </div>
-    </section>
+    </header>
 
-    <!-- Menu Section -->
-    <section class="menu-container">
-        <h2 class="section-title">Our Category-Based Menu</h2>
+    <section id="menu" class="menu-container">
+        <h2 class="section-title">Our Menu</h2>
         
         <div class="filter-tabs">
             <button class="tab active">All</button>
-            <button class="tab">Main Course</button>
+            <button class="tab">Rice</button>
             <button class="tab">Snacks</button>
             <button class="tab">Drinks</button>
         </div>
 
         <div class="food-grid">
-            <!-- Item 1 -->
+            <!-- Food Item 1 -->
             <div class="food-card">
-                 <img src="images (1).jpg" alt="Signature Fried Rice">
-                 <div class="card-body">
-                 <h3>Signature Fried Rice</h3>
-                 <p>Browse our fried rice selections with fresh ingredients.</p>
-                 <div class="card-footer">
-                     <span class="price">RM 10.50</span>
-                     <button class="btn-add">Add to Cart</button>
-                 </div>
-             </div>
-         </div>
-            
-
-            <!-- Item 2 -->
-            <div class="food-card">
-                <img src="images (2).jpg" alt="Iced Lemon Tea">
+                <img src="1000038754.jpg" alt="Food Item">
                 <div class="card-body">
-                    <h3>Iced Lemon Tea</h3>
-                    <p>Iced lemon tea, added with lemon slices for refreshment.</p>
+                    <h3>Special Fried Rice</h3>
+                    <p>Authentic local spices with fresh vegetables and egg.</p>
                     <div class="card-footer">
-                        <span class="price">RM 5.00</span>
+                        <span class="price">RM 7.00</span>
                         <button class="btn-add">Add to Cart</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Add more cards as needed -->
+            <!-- Add more food-cards here as needed -->
         </div>
     </section>
 
-    <!-- Chat Request Section -->
-<section class="request-feature">
-    <h3>Request Feature (Chat Platform)</h3>
-    <p>Can't find what you're looking for?</p>
-    <!-- Replace 60123456789 with your actual WhatsApp number -->
-    <button class="btn-chat" onclick="openWhatsApp()">Open Chat Request</button>
-</section>
-    
+    <section class="request-feature">
+        <h2>Can't find what you're looking for?</h2>
+        <p>Chat with us directly to request a custom dish or bulk order.</p>
+        <button class="btn-chat" onclick="openWhatsApp('Special Request')">Open Chat Request</button>
+    </section>
 
-    <!-- Footer -->
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Your Order</h2>
+            <p id="request-time" style="font-size: 0.8rem; color: #888; margin-bottom: 15px;"></p>
+            <div id="cart-items-list">
+                <!-- Items will appear here -->
+            </div>
+            <div class="cart-summary" style="margin-top: 20px; border-top: 2px solid #eee; padding-top: 15px;">
+                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem;">
+                    <span>Total:</span>
+                    <span>RM <span id="grand-total">0.00</span></span>
+                </div>
+                <button class="btn-checkout" style="width: 100%; background: #25D366; color: white; border: none; padding: 15px; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer;">Confirm Order via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="main-footer">
         <p>&copy; 2026 Kan Mani Food Cart. All Rights Reserved.</p>
-        <p><small>Note: Cash on Delivery Only.</small></p>
-    </footer
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
