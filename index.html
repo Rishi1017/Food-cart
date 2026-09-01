@@ -35,11 +35,12 @@
         <div class="filter-tabs">
             <button class="tab active">All</button>
             <button class="tab">Rice</button>
+            <button class="tab">Noodles</button>
             <button class="tab">Drinks</button>
         </div>
 
         <div class="food-grid">
-            <!-- Food Item: Special Fried Rice -->
+            <!-- Food Item 1 -->
             <div class="food-card">
                 <img src="images (1).jpg" alt="Special Fried Rice">
                 <div class="card-body">
@@ -52,7 +53,7 @@
                 </div>
             </div>
 
-            <!-- Food Item: Iced Lemon Tea -->
+            <!-- Food Item 2 -->
             <div class="food-card">
                 <img src="images (2).jpg" alt="Iced Lemon Tea">
                 <div class="card-body">
@@ -64,6 +65,59 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Food Item 3 -->
+            <div class="food-card">
+                <img src="images 3.jpeg" alt="Chicken Biryani">
+                <div class="card-body">
+                    <h3>Chicken Biryani</h3>
+                    <p>Fragrant basmati rice served with tender spiced chicken.</p>
+                    <div class="card-footer">
+                        <span class="price">RM 12.00</span>
+                        <button class="btn-add">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Item 4 -->
+            <div class="food-card">
+                <img src="images 4.jpeg" alt="Mee Goreng Mamak">
+                <div class="card-body">
+                    <h3>Mee Goreng Mamak</h3>
+                    <p>Stir-fried yellow noodles with tofu, potato, and bean sprouts.</p>
+                    <div class="card-footer">
+                        <span class="price">RM 6.50</span>
+                        <button class="btn-add">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Item 5 -->
+            <div class="food-card">
+                <img src="images (5).jpeg" alt="Nasi Lemak Special">
+                <div class="card-body">
+                    <h3>Nasi Lemak Special</h3>
+                    <p>Coconut rice with spicy sambal, fried chicken, cucumber, and egg.</p>
+                    <div class="card-footer">
+                        <span class="price">RM 8.50</span>
+                        <button class="btn-add">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Item 6 -->
+            <div class="food-card">
+                <img src="images (6).jpeg" alt="Teh Tarik Iced">
+                <div class="card-body">
+                    <h3>Teh Tarik Iced</h3>
+                    <p>Classic Malaysian frothy milk tea served over ice.</p>
+                    <div class="card-footer">
+                        <span class="price">RM 2.80</span>
+                        <button class="btn-add">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -117,13 +171,11 @@
         <div class="modal-content">
             <span class="close-user-modal close-modal">&times;</span>
             
-            <!-- Tab Switching: Register vs Profile -->
             <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
                 <button id="tab-auth-btn" style="font-weight: bold; background: none; border: none; cursor: pointer; border-bottom: 2px solid #c5a059; padding-bottom: 5px;">Register / Login</button>
                 <button id="tab-profile-btn" style="font-weight: bold; background: none; border: none; cursor: pointer; color: #888; padding-bottom: 5px;">My Profile</button>
             </div>
 
-            <!-- View 1: Registration Form -->
             <div id="auth-view">
                 <h2>User Registration</h2>
                 <form id="register-form" style="margin-top: 15px;">
@@ -143,7 +195,6 @@
                 </form>
             </div>
 
-            <!-- View 2: Profile Management Form -->
             <div id="profile-view" style="display: none;">
                 <h2>Manage Profile</h2>
                 <form id="profile-form" style="margin-top: 15px;">
@@ -176,4 +227,5 @@
 
     <script src="script.js"></script>
 </body>
-</html>
+    </html>
+    
