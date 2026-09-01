@@ -48,33 +48,32 @@ document.addEventListener('DOMContentLoaded', () => {
         return /^(\+?60|0)1[0-46-9]\d{7,8}$/.test(phone.replace(/\s+/g, ''));
     }
 
-    // Password must contain both letters and numbers, min 6 characters
     function isValidPassword(password) {
         return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/.test(password);
     }
 
-    // Navigation logic for completely separated views
+    // Navigation View Toggle Functions
     function showHomeOnly() {
-        homeSection.style.display = 'block';
-        menuSection.style.display = 'none';
-        requestSection.style.display = 'none';
+        if (homeSection) homeSection.style.display = 'block';
+        if (menuSection) menuSection.style.display = 'none';
+        if (requestSection) requestSection.style.display = 'none';
     }
 
     function showMenuOnly() {
-        homeSection.style.display = 'none';
-        menuSection.style.display = 'block';
-        requestSection.style.display = 'none';
+        if (homeSection) homeSection.style.display = 'none';
+        if (menuSection) menuSection.style.display = 'block';
+        if (requestSection) requestSection.style.display = 'none';
     }
 
     function showRequestOnly() {
-        homeSection.style.display = 'none';
-        menuSection.style.display = 'none';
-        requestSection.style.display = 'block';
+        if (homeSection) homeSection.style.display = 'none';
+        if (menuSection) menuSection.style.display = 'none';
+        if (requestSection) requestSection.style.display = 'block';
     }
 
-    navHome.addEventListener('click', (e) => { e.preventDefault(); showHomeOnly(); });
-    navMenu.addEventListener('click', (e) => { e.preventDefault(); showMenuOnly(); });
-    navRequest.addEventListener('click', (e) => { e.preventDefault(); showRequestOnly(); });
+    if (navHome) navHome.addEventListener('click', (e) => { e.preventDefault(); showHomeOnly(); });
+    if (navMenu) navMenu.addEventListener('click', (e) => { e.preventDefault(); showMenuOnly(); });
+    if (navRequest) navRequest.addEventListener('click', (e) => { e.preventDefault(); showRequestOnly(); });
 
     // Category Filtering Logic (All / Rice / Beverages)
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -121,35 +120,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateCartButton() {
-        cartBtn.innerText = `Cart (${window.cart.length})`;
+        if (cartBtn) cartBtn.innerText = `Cart (${window.cart.length})`;
     }
 
     function updateUserNav() {
-        if (window.userProfile) {
-            const safeName = sanitizeInput(window.userProfile.name);
-            userBtn.innerText = `Hi, ${safeName.split(' ')[0]}`;
-        } else {
-            userBtn.innerText = "Login / Profile";
+        if (userBtn) {
+            if (window.userProfile) {
+                const safeName = sanitizeInput(window.userProfile.name);
+                userBtn.innerText = `Hi, ${safeName.split(' ')[0]}`;
+            } else {
+                userBtn.innerText = "Login / Profile";
+            }
         }
     }
 
     function autoFillComplaintForm() {
         if (window.userProfile) {
-            document.getElementById('ticket-name').value = sanitizeInput(window.userProfile.name);
-            document.getElementById('ticket-phone').value = sanitizeInput(window.userProfile.phone);
+            const ticketName = document.getElementById('ticket-name');
+            const ticketPhone = document.getElementById('ticket-phone');
+            if (ticketName) ticketName.value = sanitizeInput(window.userProfile.name);
+            if (ticketPhone) ticketPhone.value = sanitizeInput(window.userProfile.phone);
         }
     }
 
-    userBtn.addEventListener('click', () => {
-        userModal.style.display = 'block';
-        if (window.userProfile) {
-            showProfileView();
-        } else {
-            showAuthView();
-        }
-    });
+    if (userBtn) {
+        userBtn.addEventListener('click', () => {
+            userModal.style.display = 'block';
+            if (window.userProfile) {
+                showProfileView();
+            } else {
+                showAuthView();
+            }
+        });
+    }
 
-    closeUserBtn.onclick = () => userModal.style.display = 'none';
+    if (closeUserBtn) closeUserBtn.onclick = () => userModal.style.display = 'none';
 
     function showAuthView() {
         authView.style.display = 'block';
@@ -178,179 +183,186 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('prof-address').value = sanitizeInput(window.userProfile.address);
     }
 
-    tabAuthBtn.addEventListener('click', showAuthView);
-    tabProfileBtn.addEventListener('click', showProfileView);
+    if (tabAuthBtn) tabAuthBtn.addEventListener('click', showAuthView);
+    if (tabProfileBtn) tabProfileBtn.addEventListener('click', showProfileView);
 
-    // Password Reset View Navigation
-    forgotPassLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        registerForm.style.display = 'none';
-        resetForm.style.display = 'block';
-        authTitle.innerText = "Reset Password";
-    });
+    if (forgotPassLink) {
+        forgotPassLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerForm.style.display = 'none';
+            resetForm.style.display = 'block';
+            authTitle.innerText = "Reset Password";
+        });
+    }
 
-    backToRegLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        resetForm.style.display = 'none';
-        registerForm.style.display = 'block';
-        authTitle.innerText = "User Registration";
-    });
+    if (backToRegLink) {
+        backToRegLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            resetForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            authTitle.innerText = "User Registration";
+        });
+    }
 
-    // Registration Handler with Admin Email Alert & Password Validation
-    registerForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    if (registerForm) {
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-        const name = sanitizeInput(document.getElementById('reg-name').value);
-        const email = sanitizeInput(document.getElementById('reg-email').value);
-        const phone = sanitizeInput(document.getElementById('reg-phone').value);
-        const password = document.getElementById('reg-password').value;
-        const address = sanitizeInput(document.getElementById('reg-address').value);
+            const name = sanitizeInput(document.getElementById('reg-name').value);
+            const email = sanitizeInput(document.getElementById('reg-email').value);
+            const phone = sanitizeInput(document.getElementById('reg-phone').value);
+            const password = document.getElementById('reg-password').value;
+            const address = sanitizeInput(document.getElementById('reg-address').value);
 
-        if (!isValidEmail(email)) {
-            alert("Please enter a valid email address.");
-            return;
-        }
+            if (!isValidEmail(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
 
-        if (!isValidPhone(phone)) {
-            alert("Please enter a valid phone number.");
-            return;
-        }
+            if (!isValidPhone(phone)) {
+                alert("Please enter a valid phone number.");
+                return;
+            }
 
-        if (!isValidPassword(password)) {
-            alert("Password must be at least 6 characters long and include both letters and numbers.");
-            return;
-        }
+            if (!isValidPassword(password)) {
+                alert("Password must be at least 6 characters long and include both letters and numbers.");
+                return;
+            }
 
-        const user = { name, email, phone, address, password };
-        localStorage.setItem('kanmani_user', JSON.stringify(user));
-        window.userProfile = user;
-        updateUserNav();
-        autoFillComplaintForm();
+            const user = { name, email, phone, address, password };
+            localStorage.setItem('kanmani_user', JSON.stringify(user));
+            window.userProfile = user;
+            updateUserNav();
+            autoFillComplaintForm();
 
-        const submitBtn = registerForm.querySelector('button[type="submit"]');
-        submitBtn.innerText = "Registering...";
-        submitBtn.disabled = true;
+            const submitBtn = registerForm.querySelector('button[type="submit"]');
+            submitBtn.innerText = "Registering...";
+            submitBtn.disabled = true;
 
-        // Send registration details alert to your email via EmailJS
-        const adminTemplateParams = {
-            to_email: "s241201503@studentmail.unimap.edu.my",
-            user_name: name,
-            user_email: email,
-            user_phone: phone,
-            user_address: address
-        };
+            const adminTemplateParams = {
+                to_email: "s241201503@studentmail.unimap.edu.my",
+                user_name: name,
+                user_email: email,
+                user_phone: phone,
+                user_address: address
+            };
 
-        emailjs.send('service_52froww', 'template_0l5m72k', adminTemplateParams)
-            .then(() => {
-                alert("Registration successful! Notification sent to admin.");
-                userModal.style.display = 'none';
-            })
-            .catch((error) => {
-                console.error("Email Notification Error:", error);
-                alert("Registration saved successfully!");
-                userModal.style.display = 'none';
-            })
-            .finally(() => {
-                submitBtn.innerText = "Save & Register";
-                submitBtn.disabled = false;
-            });
-    });
+            emailjs.send('service_52froww', 'template_0l5m72k', adminTemplateParams)
+                .then(() => {
+                    alert("Registration successful! Notification sent to admin.");
+                    userModal.style.display = 'none';
+                })
+                .catch((error) => {
+                    console.error("Email Notification Error:", error);
+                    alert("Registration saved successfully!");
+                    userModal.style.display = 'none';
+                })
+                .finally(() => {
+                    submitBtn.innerText = "Save & Register";
+                    submitBtn.disabled = false;
+                });
+        });
+    }
 
-    // Password Reset Handler via EmailJS
-    resetForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const resetEmail = sanitizeInput(document.getElementById('reset-email').value);
+    if (resetForm) {
+        resetForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const resetEmail = sanitizeInput(document.getElementById('reset-email').value);
 
-        if (!isValidEmail(resetEmail)) {
-            alert("Please enter a valid email address.");
-            return;
-        }
+            if (!isValidEmail(resetEmail)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
 
-        const storedUser = JSON.parse(localStorage.getItem('kanmani_user'));
+            const storedUser = JSON.parse(localStorage.getItem('kanmani_user'));
 
-        if (!storedUser || storedUser.email.toLowerCase() !== resetEmail.toLowerCase()) {
-            alert("No account registered with this email address.");
-            return;
-        }
+            if (!storedUser || storedUser.email.toLowerCase() !== resetEmail.toLowerCase()) {
+                alert("No account registered with this email address.");
+                return;
+            }
 
-        const submitBtn = resetForm.querySelector('button[type="submit"]');
-        submitBtn.innerText = "Sending Email...";
-        submitBtn.disabled = true;
+            const submitBtn = resetForm.querySelector('button[type="submit"]');
+            submitBtn.innerText = "Sending Email...";
+            submitBtn.disabled = true;
 
-        const templateParams = {
-            to_email: resetEmail,
-            user_name: storedUser.name,
-            user_password: storedUser.password
-        };
+            const templateParams = {
+                to_email: resetEmail,
+                user_name: storedUser.name,
+                user_password: storedUser.password
+            };
 
-        emailjs.send('service_52froww', 'template_0l5m72k', templateParams)
-            .then(() => {
-                alert("Password details sent to your registered email!");
-                userModal.style.display = 'none';
-                resetForm.reset();
-            })
-            .catch((error) => {
-                console.error("EmailJS Error:", error);
-                alert("Failed to send email. Please check your network connection.");
-            })
-            .finally(() => {
-                submitBtn.innerText = "Send Password Email";
-                submitBtn.disabled = false;
-            });
-    });
+            emailjs.send('service_52froww', 'template_0l5m72k', templateParams)
+                .then(() => {
+                    alert("Password details sent to your registered email!");
+                    userModal.style.display = 'none';
+                    resetForm.reset();
+                })
+                .catch((error) => {
+                    console.error("EmailJS Error:", error);
+                    alert("Failed to send email. Please check your network connection.");
+                })
+                .finally(() => {
+                    submitBtn.innerText = "Send Password Email";
+                    submitBtn.disabled = false;
+                });
+        });
+    }
 
-    // Profile Update Handler
-    profileForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    if (profileForm) {
+        profileForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-        const name = sanitizeInput(document.getElementById('prof-name').value);
-        const email = sanitizeInput(document.getElementById('prof-email').value);
-        const phone = sanitizeInput(document.getElementById('prof-phone').value);
-        const address = sanitizeInput(document.getElementById('prof-address').value);
+            const name = sanitizeInput(document.getElementById('prof-name').value);
+            const email = sanitizeInput(document.getElementById('prof-email').value);
+            const phone = sanitizeInput(document.getElementById('prof-phone').value);
+            const address = sanitizeInput(document.getElementById('prof-address').value);
 
-        if (!isValidEmail(email) || !isValidPhone(phone)) {
-            alert("Please check your email and phone number input.");
-            return;
-        }
+            if (!isValidEmail(email) || !isValidPhone(phone)) {
+                alert("Please check your email and phone number input.");
+                return;
+            }
 
-        const user = { ...window.userProfile, name, email, phone, address };
-        localStorage.setItem('kanmani_user', JSON.stringify(user));
-        window.userProfile = user;
-        updateUserNav();
-        autoFillComplaintForm();
-        alert("Profile updated successfully!");
-        userModal.style.display = 'none';
-    });
+            const user = { ...window.userProfile, name, email, phone, address };
+            localStorage.setItem('kanmani_user', JSON.stringify(user));
+            window.userProfile = user;
+            updateUserNav();
+            autoFillComplaintForm();
+            alert("Profile updated successfully!");
+            userModal.style.display = 'none';
+        });
+    }
 
-    // Support Ticket Submission via WhatsApp
-    complaintForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    if (complaintForm) {
+        complaintForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-        const type = sanitizeInput(document.getElementById('ticket-type').value);
-        const name = sanitizeInput(document.getElementById('ticket-name').value);
-        const phone = sanitizeInput(document.getElementById('ticket-phone').value);
-        const desc = sanitizeInput(document.getElementById('ticket-desc').value);
+            const type = sanitizeInput(document.getElementById('ticket-type').value);
+            const name = sanitizeInput(document.getElementById('ticket-name').value);
+            const phone = sanitizeInput(document.getElementById('ticket-phone').value);
+            const desc = sanitizeInput(document.getElementById('ticket-desc').value);
 
-        const ticketId = 'TICK-' + Math.floor(1000 + Math.random() * 9000);
-        const phoneNumber = "60175566130";
+            const ticketId = 'TICK-' + Math.floor(1000 + Math.random() * 9000);
+            const phoneNumber = "60175566130";
 
-        let message = `*NEW ${type.toUpperCase()} [${ticketId}]*\n`;
-        message += `------------------------------\n`;
-        message += `*Customer:* ${name}\n`;
-        message += `*Contact:* ${phone}\n`;
-        message += `*Details:* ${desc}\n`;
+            let message = `*NEW ${type.toUpperCase()} [${ticketId}]*\n`;
+            message += `------------------------------\n`;
+            message += `*Customer:* ${name}\n`;
+            message += `*Contact:* ${phone}\n`;
+            message += `*Details:* ${desc}\n`;
 
-        window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-    });
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        });
+    }
 
-    // Cart Modal Handling
-    cartBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        renderCart();
-        modal.style.display = 'block';
-    });
+    if (cartBtn) {
+        cartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderCart();
+            modal.style.display = 'block';
+        });
+    }
 
-    closeBtn.onclick = () => modal.style.display = 'none';
+    if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
 
     window.onclick = (event) => {
         if (event.target == modal) modal.style.display = 'none';
@@ -362,7 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalSpan = document.getElementById('grand-total');
         const timeDisplay = document.getElementById('request-time');
         
-        timeDisplay.innerText = "Requested on: " + sanitizeInput(new Date().toLocaleString());
+        if (timeDisplay) timeDisplay.innerText = "Requested on: " + sanitizeInput(new Date().toLocaleString());
+        if (!list) return;
+
         list.innerHTML = '';
         let total = 0;
 
@@ -384,7 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 total += item.price;
             });
         }
-        totalSpan.innerText = total.toFixed(2);
+        if (totalSpan) totalSpan.innerText = total.toFixed(2);
     }
 
     window.removeItem = (index) => {
@@ -393,41 +407,42 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCart();
     };
 
-    // Checkout Handler via WhatsApp
-    checkoutBtn.addEventListener('click', () => {
-        if (window.cart.length === 0) {
-            alert("Please add items to your cart first!");
-            return;
-        }
-        
-        const phoneNumber = "60175566130";
-        let message = `*Order Confirmation from Kanmani Food Corner*\n`;
-        message += `------------------------------\n`;
-        
-        if (window.userProfile) {
-            message += `*Customer:* ${sanitizeInput(window.userProfile.name)}\n`;
-            message += `*Phone:* ${sanitizeInput(window.userProfile.phone)}\n`;
-            message += `*Address:* ${sanitizeInput(window.userProfile.address)}\n`;
-            message += `------------------------------\n`;
-        }
-
-        message += "I would like to order:\n";
-        const counts = {};
-        window.cart.forEach(item => {
-            const cleanName = sanitizeInput(item.name);
-            counts[cleanName] = (counts[cleanName] || 0) + 1;
-        });
-
-        for (const [name, qty] of Object.entries(counts)) {
-            const item = window.cart.find(i => sanitizeInput(i.name) === name);
-            message += `• ${qty}x ${name} (RM ${(item.price * qty).toFixed(2)})\n`;
-        }
-        
-        const total = window.cart.reduce((sum, item) => sum + item.price, 0);
-        message += `\n*Total Amount: RM ${total.toFixed(2)}*`;
-        message += `\nPayment: Cash on Delivery`;
-
-        window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-    });
-});
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            if (window.cart.length === 0) {
+                alert("Please add items to your cart first!");
+                return;
+            }
             
+            const phoneNumber = "60175566130";
+            let message = `*Order Confirmation from Kanmani Food Corner*\n`;
+            message += `------------------------------\n`;
+            
+            if (window.userProfile) {
+                message += `*Customer:* ${sanitizeInput(window.userProfile.name)}\n`;
+                message += `*Phone:* ${sanitizeInput(window.userProfile.phone)}\n`;
+                message += `*Address:* ${sanitizeInput(window.userProfile.address)}\n`;
+                message += `------------------------------\n`;
+            }
+
+            message += "I would like to order:\n";
+            const counts = {};
+            window.cart.forEach(item => {
+                const cleanName = sanitizeInput(item.name);
+                counts[cleanName] = (counts[cleanName] || 0) + 1;
+            });
+
+            for (const [name, qty] of Object.entries(counts)) {
+                const item = window.cart.find(i => sanitizeInput(i.name) === name);
+                message += `• ${qty}x ${name} (RM ${(item.price * qty).toFixed(2)})\n`;
+            }
+            
+            const total = window.cart.reduce((sum, item) => sum + item.price, 0);
+            message += `\n*Total Amount: RM ${total.toFixed(2)}*`;
+            message += `\nPayment: Cash on Delivery`;
+
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        });
+    }
+});
+        
