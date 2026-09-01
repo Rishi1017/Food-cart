@@ -14,8 +14,12 @@
         <ul class="nav-links">
             <li><a href="#">Home</a></li>
             <li><a href="#menu">Menu</a></li>
+            <li><a href="#request-section">Requests & Support</a></li>
         </ul>
-        <button class="cart-btn">Cart (0)</button>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <button id="user-btn" class="tab" style="padding: 8px 16px;">Login / Profile</button>
+            <button class="cart-btn">Cart (0)</button>
+        </div>
     </nav>
 
     <header class="hero">
@@ -63,10 +67,32 @@
         </div>
     </section>
 
-    <section class="request-feature">
-        <h2>Can't find what you're looking for?</h2>
-        <p>Chat with us directly to request a custom dish or bulk order.</p>
-        <button class="btn-chat" onclick="openWhatsApp('Special Request')">Open Chat Request</button>
+    <!-- Complaint / Request Submission Section -->
+    <section id="request-section" class="request-feature">
+        <h2>Custom Orders & Support Desk</h2>
+        <p>Submit a custom request, delivery inquiry, or complaint directly to our admin team.</p>
+        
+        <form id="complaint-form" style="max-width: 500px; margin: 25px auto 0; text-align: left; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 5px;">Submission Type</label>
+                <select id="ticket-type" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+                    <option value="Custom Dish Request">Custom Dish Request</option>
+                    <option value="Bulk Order Request">Bulk / Catering Request</option>
+                    <option value="Delivery Issue">Delivery Issue</option>
+                    <option value="General Complaint">General Complaint</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 5px;">Your Details</label>
+                <input type="text" id="ticket-name" placeholder="Full Name" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 10px;">
+                <input type="tel" id="ticket-phone" placeholder="Phone Number" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 5px;">Description</label>
+                <textarea id="ticket-desc" rows="4" placeholder="Describe your request or complaint..." required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; font-family: inherit;"></textarea>
+            </div>
+            <button type="submit" class="btn-chat" style="width: 100%; border-radius: 6px; margin-top: 5px;">Submit Ticket via WhatsApp</button>
+        </form>
     </section>
 
     <!-- Cart Modal -->
@@ -83,6 +109,64 @@
                 </div>
                 <button class="btn-checkout" style="width: 100%; background: #25D366; color: white; border: none; padding: 15px; border-radius: 8px; margin-top: 15px; font-weight: bold; cursor: pointer;">Confirm Order via WhatsApp</button>
             </div>
+        </div>
+    </div>
+
+    <!-- User Registration & Profile Management Modal -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-user-modal close-modal">&times;</span>
+            
+            <!-- Tab Switching: Register vs Profile -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <button id="tab-auth-btn" style="font-weight: bold; background: none; border: none; cursor: pointer; border-bottom: 2px solid #c5a059; padding-bottom: 5px;">Register / Login</button>
+                <button id="tab-profile-btn" style="font-weight: bold; background: none; border: none; cursor: pointer; color: #888; padding-bottom: 5px;">My Profile</button>
+            </div>
+
+            <!-- View 1: Registration Form -->
+            <div id="auth-view">
+                <h2>User Registration</h2>
+                <form id="register-form" style="margin-top: 15px;">
+                    <div style="margin-bottom: 10px;">
+                        <input type="text" id="reg-name" placeholder="Full Name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <input type="email" id="reg-email" placeholder="Email Address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <input type="tel" id="reg-phone" placeholder="Phone Number (e.g. 0123456789)" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <textarea id="reg-address" placeholder="Delivery Address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-add" style="width: 100%; padding: 12px; font-size: 1rem;">Save Profile</button>
+                </form>
+            </div>
+
+            <!-- View 2: Profile Management Form -->
+            <div id="profile-view" style="display: none;">
+                <h2>Manage Profile</h2>
+                <form id="profile-form" style="margin-top: 15px;">
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.85rem; color: #666;">Full Name</label>
+                        <input type="text" id="prof-name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.85rem; color: #666;">Email</label>
+                        <input type="email" id="prof-email" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 0.85rem; color: #666;">Phone Number</label>
+                        <input type="tel" id="prof-phone" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="font-size: 0.85rem; color: #666;">Delivery Address</label>
+                        <textarea id="prof-address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-add" style="width: 100%; padding: 12px; font-size: 1rem;">Update Info</button>
+                </form>
+            </div>
+
         </div>
     </div>
 
