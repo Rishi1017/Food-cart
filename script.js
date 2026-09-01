@@ -20,31 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileForm = document.getElementById('profile-form');
     const complaintForm = document.getElementById('complaint-form');
 
-    // =========================================================
-    // SECURITY IMPLEMENTATION: Input Validation & XSS Prevention
-    // =========================================================
-    function sanitizeInput(str) {
-        if (!str) return '';
-        const temp = document.createElement('div');
-        temp.textContent = str.trim();
-        return temp.innerHTML
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    function isValidPhone(phone) {
-        // Validates Malaysian phone formats (e.g., 0175566130, +60175566130)
-        const phoneRegex = /^(\+?60|0)1[0-46-9]\d{7,8}$/;
-        return phoneRegex.test(phone.replace(/\s+/g, ''));
-    }
-
     // Initial Setup
     updateUserNav();
     autoFillComplaintForm();
@@ -53,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.btn-add').forEach((button) => {
         button.addEventListener('click', () => {
             const card = button.closest('.food-card');
-            const name = sanitizeInput(card.querySelector('h3').innerText);
+            const name = card.querySelector('h3').innerText;
             const priceText = card.querySelector('.price').innerText;
             const price = parseFloat(priceText.replace('RM', '').trim());
 
@@ -76,8 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. User Registration & Profile Logic
     function updateUserNav() {
         if (window.userProfile) {
-            const safeName = sanitizeInput(window.userProfile.name);
-            userBtn.innerText = `Hi, ${safeName.split(' ')[0]}`;
+            userBtn.innerText = `Hi, ${window.userProfile.name.split(' ')[0]}`;
         } else {
             userBtn.innerText = "Login / Profile";
         }
@@ -85,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function autoFillComplaintForm() {
         if (window.userProfile) {
-            document.getElementById('ticket-name').value = sanitizeInput(window.userProfile.name);
-            document.getElementById('ticket-phone').value = sanitizeInput(window.userProfile.phone);
+            document.getElementById('ticket-name').value = window.userProfile.name;
+            document.getElementById('ticket-phone').value = window.userProfile.phone;
         }
     }
 
@@ -122,36 +96,25 @@ document.addEventListener('DOMContentLoaded', () => {
         tabAuthBtn.style.borderBottom = 'none';
         tabAuthBtn.style.color = '#888';
 
-        // Load values into form safely
-        document.getElementById('prof-name').value = sanitizeInput(window.userProfile.name);
-        document.getElementById('prof-email').value = sanitizeInput(window.userProfile.email);
-        document.getElementById('prof-phone').value = sanitizeInput(window.userProfile.phone);
-        document.getElementById('prof-address').value = sanitizeInput(window.userProfile.address);
+        // Load values into form
+        document.getElementById('prof-name').value = window.userProfile.name;
+        document.getElementById('prof-email').value = window.userProfile.email;
+        document.getElementById('prof-phone').value = window.userProfile.phone;
+        document.getElementById('prof-address').value = window.userProfile.address;
     }
 
     tabAuthBtn.addEventListener('click', showAuthView);
     tabProfileBtn.addEventListener('click', showProfileView);
 
-    // Save Registration with Input Validation & XSS Cleaning
+    // Save Registration
     registerForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
-        const name = sanitizeInput(document.getElementById('reg-name').value);
-        const email = sanitizeInput(document.getElementById('reg-email').value);
-        const phone = sanitizeInput(document.getElementById('reg-phone').value);
-        const address = sanitizeInput(document.getElementById('reg-address').value);
-
-        if (!isValidEmail(email)) {
-            alert("Please enter a valid email address.");
-            return;
-        }
-
-        if (!isValidPhone(phone)) {
-            alert("Please enter a valid Malaysian phone number (e.g., 0175566130).");
-            return;
-        }
-
-        const user = { name, email, phone, address };
+        const user = {
+            name: document.getElementById('reg-name').value,
+            email: document.getElementById('reg-email').value,
+            phone: document.getElementById('reg-phone').value,
+            address: document.getElementById('reg-address').value
+        };
         localStorage.setItem('kanmani_user', JSON.stringify(user));
         window.userProfile = user;
         updateUserNav();
@@ -160,26 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
         userModal.style.display = 'none';
     });
 
-    // Update Profile with Security Validation
+    // Update Profile
     profileForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
-        const name = sanitizeInput(document.getElementById('prof-name').value);
-        const email = sanitizeInput(document.getElementById('prof-email').value);
-        const phone = sanitizeInput(document.getElementById('prof-phone').value);
-        const address = sanitizeInput(document.getElementById('prof-address').value);
-
-        if (!isValidEmail(email)) {
-            alert("Please enter a valid email address.");
-            return;
-        }
-
-        if (!isValidPhone(phone)) {
-            alert("Please enter a valid Malaysian phone number.");
-            return;
-        }
-
-        const user = { name, email, phone, address };
+        const user = {
+            name: document.getElementById('prof-name').value,
+            email: document.getElementById('prof-email').value,
+            phone: document.getElementById('prof-phone').value,
+            address: document.getElementById('prof-address').value
+        };
         localStorage.setItem('kanmani_user', JSON.stringify(user));
         window.userProfile = user;
         updateUserNav();
@@ -188,23 +140,16 @@ document.addEventListener('DOMContentLoaded', () => {
         userModal.style.display = 'none';
     });
 
-    // 3. Complaint & Request Submission Logic (Sanitization Applied)
+    // 3. Complaint & Request Submission Logic
     complaintForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
-        const type = sanitizeInput(document.getElementById('ticket-type').value);
-        const name = sanitizeInput(document.getElementById('ticket-name').value);
-        const phone = sanitizeInput(document.getElementById('ticket-phone').value);
-        const desc = sanitizeInput(document.getElementById('ticket-desc').value);
-
-        if (!isValidPhone(phone)) {
-            alert("Please enter a valid phone number for support requests.");
-            return;
-        }
-
+        const type = document.getElementById('ticket-type').value;
+        const name = document.getElementById('ticket-name').value;
+        const phone = document.getElementById('ticket-phone').value;
+        const desc = document.getElementById('ticket-desc').value;
         const ticketId = 'TICK-' + Math.floor(1000 + Math.random() * 9000);
-        const phoneNumber = "60175566130";
 
+        const phoneNumber = "60175566130";
         let message = `*NEW ${type.toUpperCase()} [${ticketId}]*\n`;
         message += `------------------------------\n`;
         message += `*Customer:* ${name}\n`;
@@ -234,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalSpan = document.getElementById('grand-total');
         const timeDisplay = document.getElementById('request-time');
         
-        timeDisplay.innerText = "Requested on: " + sanitizeInput(new Date().toLocaleString());
+        timeDisplay.innerText = "Requested on: " + new Date().toLocaleString();
         list.innerHTML = '';
         let total = 0;
 
@@ -244,12 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
             window.cart.forEach((item, index) => {
                 const itemRow = document.createElement('div');
                 itemRow.style.cssText = "display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #eee; padding-bottom:8px;";
-                
-                // Safe innerHTML assignment using text content conversion
-                const safeName = sanitizeInput(item.name);
                 itemRow.innerHTML = `
                     <div>
-                        <strong style="display:block;">${safeName}</strong>
+                        <strong style="display:block;">${item.name}</strong>
                         <span style="color:#666;">RM ${item.price.toFixed(2)}</span>
                     </div>
                     <button onclick="removeItem(${index})" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:0.8rem;">Remove</button>
@@ -279,21 +221,20 @@ document.addEventListener('DOMContentLoaded', () => {
         message += `------------------------------\n`;
         
         if (window.userProfile) {
-            message += `*Customer:* ${sanitizeInput(window.userProfile.name)}\n`;
-            message += `*Phone:* ${sanitizeInput(window.userProfile.phone)}\n`;
-            message += `*Address:* ${sanitizeInput(window.userProfile.address)}\n`;
+            message += `*Customer:* ${window.userProfile.name}\n`;
+            message += `*Phone:* ${window.userProfile.phone}\n`;
+            message += `*Address:* ${window.userProfile.address}\n`;
             message += `------------------------------\n`;
         }
 
         message += "I would like to order:\n";
         const counts = {};
         window.cart.forEach(item => {
-            const cleanName = sanitizeInput(item.name);
-            counts[cleanName] = (counts[cleanName] || 0) + 1;
+            counts[item.name] = (counts[item.name] || 0) + 1;
         });
 
         for (const [name, qty] of Object.entries(counts)) {
-            const item = window.cart.find(i => sanitizeInput(i.name) === name);
+            const item = window.cart.find(i => i.name === name);
             message += `• ${qty}x ${name} (RM ${(item.price * qty).toFixed(2)})\n`;
         }
         
@@ -305,4 +246,4 @@ document.addEventListener('DOMContentLoaded', () => {
         window.open(url, '_blank');
     });
 });
-                                  
+        
