@@ -170,20 +170,42 @@
         </div>
     </div>
 
-    <!-- User Authentication Modal -->
+    <!-- User Authentication & Profile Modal -->
     <div id="user-modal" class="modal">
         <div class="modal-content">
             <span class="close-user-modal close-modal">&times;</span>
             
             <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                <button id="tab-auth-btn" style="font-weight: bold; background: none; border: none; cursor: pointer; border-bottom: 2px solid #c5a059; padding-bottom: 5px;">Register / Login</button>
+                <button id="tab-auth-btn" style="font-weight: bold; background: none; border: none; cursor: pointer; border-bottom: 2px solid #c5a059; padding-bottom: 5px;">Login / Register</button>
                 <button id="tab-profile-btn" style="font-weight: bold; background: none; border: none; cursor: pointer; color: #888; padding-bottom: 5px;">My Profile</button>
             </div>
 
             <!-- Registration / Login View -->
             <div id="auth-view">
-                <h2 id="auth-title">User Registration</h2>
-                <form id="register-form" style="margin-top: 15px;">
+                <h2 id="auth-title">User Login</h2>
+                
+                <!-- Toggle Form Selector -->
+                <div style="display: flex; gap: 10px; margin: 15px 0;">
+                    <button id="btn-show-login" class="tab active" style="flex: 1; padding: 6px;">Login</button>
+                    <button id="btn-show-register" class="tab" style="flex: 1; padding: 6px;">Register</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" style="margin-top: 15px;">
+                    <div style="margin-bottom: 10px;">
+                        <input type="email" id="login-email" placeholder="Email Address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <input type="password" id="login-password" placeholder="Password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+                    <button type="submit" class="btn-add" style="width: 100%; padding: 12px; font-size: 1rem;">Log In</button>
+                    <p style="margin-top: 10px; font-size: 0.85rem; text-align: center;">
+                        <a href="#" id="forgot-pass-link" style="color: #c5a059; text-decoration: none;">Forgot Password?</a>
+                    </p>
+                </form>
+
+                <!-- Registration Form -->
+                <form id="register-form" style="margin-top: 15px; display: none;">
                     <div style="margin-bottom: 10px;">
                         <input type="text" id="reg-name" placeholder="Full Name" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                     </div>
@@ -200,12 +222,9 @@
                         <textarea id="reg-address" placeholder="Delivery Address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit;"></textarea>
                     </div>
                     <button type="submit" class="btn-add" style="width: 100%; padding: 12px; font-size: 1rem;">Save & Register</button>
-                    <p style="margin-top: 10px; font-size: 0.85rem; text-align: center;">
-                        <a href="#" id="forgot-pass-link" style="color: #c5a059; text-decoration: none;">Forgot Password?</a>
-                    </p>
                 </form>
 
-                <!-- Password Reset View -->
+                <!-- Password Reset Form -->
                 <form id="reset-form" style="margin-top: 15px; display: none;">
                     <p style="font-size: 0.85rem; margin-bottom: 10px; color: #555;">Enter your registered email address to recover your password details.</p>
                     <div style="margin-bottom: 10px;">
@@ -213,7 +232,7 @@
                     </div>
                     <button type="submit" class="btn-add" style="width: 100%; padding: 12px; font-size: 1rem;">Send Password Email</button>
                     <p style="margin-top: 10px; font-size: 0.85rem; text-align: center;">
-                        <a href="#" id="back-to-reg-link" style="color: #888; text-decoration: none;">Back to Register</a>
+                        <a href="#" id="back-to-reg-link" style="color: #888; text-decoration: none;">Back to Login</a>
                     </p>
                 </form>
             </div>
@@ -238,15 +257,15 @@
                         <label style="font-size: 0.85rem; color: #666;">Delivery Address</label>
                         <textarea id="prof-address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit;"></textarea>
                     </div>
-                    <button type="submit" class="btn-add" style="width: 100%; padding: 12px; font-size: 1rem;">Update Profile</button>
+                    <button type="submit" class="btn-add" style="width: 100%; padding: 12px; font-size: 1rem; margin-bottom: 10px;">Update Profile</button>
+                    <button type="button" id="logout-btn" style="width: 100%; padding: 10px; background: #ff4d4d; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Log Out</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Forced Cache-Busting Script Import -->
-    <script src="food.js?v=3.0"></script>
+    <!-- Script Import with forced cache busting -->
+    <script src="food.js?v=4.0"></script>
 </body>
-                </html>
-        
-                                                                
+                            </html>
+                            
