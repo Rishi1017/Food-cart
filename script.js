@@ -14,10 +14,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabProfileBtn = document.getElementById('tab-profile-btn');
     const authView = document.getElementById('auth-view');
     const profileView = document.getElementById('profile-view');
+    
+    const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
     const resetForm = document.getElementById('reset-form');
     const profileForm = document.getElementById('profile-form');
     const complaintForm = document.getElementById('complaint-form');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    const btnShowLogin = document.getElementById('btn-show-login');
+    const btnShowRegister = document.getElementById('btn-show-register');
 
     const navHome = document.getElementById('nav-home');
     const navMenu = document.getElementById('nav-menu');
@@ -46,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/.test(password);
     }
 
-    // Direct Smooth Scrolling Navigation Handlers
+    // Navigation Scrolling
     if (navHome) {
         navHome.addEventListener('click', (e) => {
             e.preventDefault();
@@ -68,53 +74,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Category Filter Functionality
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const foodCards = document.querySelectorAll('.food-card');
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const category = btn.getAttribute('data-category');
-            foodCards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category');
-                if (category === 'all' || cardCategory === category) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+    // Toggle Login / Register Sub-Views
+    if (btnShowLogin && btnShowRegister) {
+        btnShowLogin.addEventListener('click', () => {
+            btnShowLogin.classList.add('active');
+            btnShowRegister.classList.remove('active');
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            resetForm.style.display = 'none';
+            if (authTitle) authTitle.innerText = "User Login";
         });
-    });
+
+        btnShowRegister.addEventListener('click', () => {
+            btnShowRegister.classList.add('active');
+            btnShowLogin.classList.remove('active');
+            registerForm.style.display = 'block';
+            loginForm.style.display = 'none';
+            resetForm.style.display = 'none';
+            if (authTitle) authTitle.innerText = "User Registration";
+        });
+    }
 
     updateUserNav();
     autoFillComplaintForm();
-
-    // Add to Cart Handlers
-    document.querySelectorAll('.btn-add').forEach((button) => {
-        button.addEventListener('click', () => {
-            const card = button.closest('.food-card');
-            const name = sanitizeInput(card.querySelector('h3').innerText);
-            const priceText = card.querySelector('.price').innerText;
-            const price = parseFloat(priceText.replace('RM', '').trim());
-
-            window.cart.push({ name, price });
-            updateCartButton();
-            
-            button.innerText = "Added!";
-            button.style.background = "#c5a059";
-            setTimeout(() => {
-                button.innerText = "Add to Cart";
-                button.style.background = "#111";
-            }, 1000);
-        });
-    });
-
-    function updateCartButton() {
-        if (cartBtn) cartBtn.innerText = `Cart (${window.cart.length})`;
-    }
 
     function updateUserNav() {
         if (userBtn) {
@@ -160,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showProfileView() {
         if (!window.userProfile) {
-            alert("Please register first!");
+            alert("Please login or register first!");
+            showAuthView();
             return;
         }
         authView.style.display = 'none';
@@ -182,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (forgotPassLink) {
         forgotPassLink.addEventListener('click', (e) => {
             e.preventDefault();
+            loginForm.style.display = 'none';
             registerForm.style.display = 'none';
             resetForm.style.display = 'block';
             authTitle.innerText = "Reset Password";
@@ -192,11 +176,33 @@ document.addEventListener('DOMContentLoaded', () => {
         backToRegLink.addEventListener('click', (e) => {
             e.preventDefault();
             resetForm.style.display = 'none';
-            registerForm.style.display = 'block';
-            authTitle.innerText = "User Registration";
+            loginForm.style.display = 'block';
+            authTitle.innerText = "User Login";
         });
     }
 
+    // Login Form Submit
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = sanitizeInput(document.getElementById('login-email').value);
+            const password = document.getElementById('login-password').value;
+
+            const storedUser = JSON.parse(localStorage.getItem('kanmani_user'));
+
+            if (storedUser && storedUser.email.toLowerCase() === email.toLowerCase() && storedUser.password === password) {
+                window.userProfile = storedUser;
+                updateUserNav();
+                autoFillComplaintForm();
+                alert("Login successful!");
+                userModal.style.display = 'none';
+            } else {
+                alert("Invalid email or password. Please try again or register.");
+            }
+        });
+    }
+
+    // Registration Form Submit
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -208,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const address = sanitizeInput(document.getElementById('reg-address').value);
 
             if (!isValidEmail(email) || !isValidPhone(phone) || !isValidPassword(password)) {
-                alert("Please complete all fields with valid details. Password must contain letters & numbers.");
+                alert("Please check your input details. Password must contain letters and numbers.");
                 return;
             }
 
@@ -218,79 +224,12 @@ document.addEventListener('DOMContentLoaded', () => {
             updateUserNav();
             autoFillComplaintForm();
 
-            const submitBtn = registerForm.querySelector('button[type="submit"]');
-            submitBtn.innerText = "Registering...";
-            submitBtn.disabled = true;
-
-            const adminTemplateParams = {
-                to_email: "s241201503@studentmail.unimap.edu.my",
-                user_name: name,
-                user_email: email,
-                user_phone: phone,
-                user_address: address
-            };
-
-            emailjs.send('service_52froww', 'template_0l5m72k', adminTemplateParams)
-                .then(() => {
-                    alert("Registration successful!");
-                    userModal.style.display = 'none';
-                })
-                .catch((error) => {
-                    console.error("Email Error:", error);
-                    alert("Registration saved!");
-                    userModal.style.display = 'none';
-                })
-                .finally(() => {
-                    submitBtn.innerText = "Save & Register";
-                    submitBtn.disabled = false;
-                });
+            alert("Registration successful!");
+            userModal.style.display = 'none';
         });
     }
 
-    if (resetForm) {
-        resetForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const resetEmail = sanitizeInput(document.getElementById('reset-email').value);
-
-            if (!isValidEmail(resetEmail)) {
-                alert("Please enter a valid email address.");
-                return;
-            }
-
-            const storedUser = JSON.parse(localStorage.getItem('kanmani_user'));
-
-            if (!storedUser || storedUser.email.toLowerCase() !== resetEmail.toLowerCase()) {
-                alert("No registered account found with this email.");
-                return;
-            }
-
-            const submitBtn = resetForm.querySelector('button[type="submit"]');
-            submitBtn.innerText = "Sending Email...";
-            submitBtn.disabled = true;
-
-            const templateParams = {
-                to_email: resetEmail,
-                user_name: storedUser.name,
-                user_password: storedUser.password
-            };
-
-            emailjs.send('service_52froww', 'template_0l5m72k', templateParams)
-                .then(() => {
-                    alert("Password details sent to your registered email address.");
-                    userModal.style.display = 'none';
-                    resetForm.reset();
-                })
-                .catch((error) => {
-                    console.error("EmailJS Error:", error);
-                    alert("Failed to send reset email. Please try again later.");
-                })
-                .finally(() => {
-                    submitBtn.innerText = "Send Password Email";
-                    submitBtn.disabled = false;
-                });
-        });
-    }
-
+    // Profile Form Submit
     if (profileForm) {
         profileForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -315,117 +254,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (complaintForm) {
-        complaintForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const type = sanitizeInput(document.getElementById('ticket-type').value);
-            const name = sanitizeInput(document.getElementById('ticket-name').value);
-            const phone = sanitizeInput(document.getElementById('ticket-phone').value);
-            const desc = sanitizeInput(document.getElementById('ticket-desc').value);
-
-            const ticketId = 'TICK-' + Math.floor(1000 + Math.random() * 9000);
-            const phoneNumber = "60175566130";
-
-            let message = `*NEW ${type.toUpperCase()} [${ticketId}]*\n`;
-            message += `------------------------------\n`;
-            message += `*Customer:* ${name}\n`;
-            message += `*Contact:* ${phone}\n`;
-            message += `*Details:* ${desc}\n`;
-
-            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+    // Logout Action
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('kanmani_user');
+            window.userProfile = null;
+            updateUserNav();
+            alert("You have logged out.");
+            userModal.style.display = 'none';
         });
     }
-
-    if (cartBtn) {
-        cartBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            renderCart();
-            modal.style.display = 'block';
-        });
-    }
-
-    if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
 
     window.onclick = (event) => {
         if (event.target == modal) modal.style.display = 'none';
         if (event.target == userModal) userModal.style.display = 'none';
     };
-
-    function renderCart() {
-        const list = document.getElementById('cart-items-list');
-        const totalSpan = document.getElementById('grand-total');
-        const timeDisplay = document.getElementById('request-time');
-        
-        if (timeDisplay) timeDisplay.innerText = "Requested on: " + sanitizeInput(new Date().toLocaleString());
-        if (!list) return;
-
-        list.innerHTML = '';
-        let total = 0;
-
-        if (window.cart.length === 0) {
-            list.innerHTML = '<p style="text-align:center; padding: 20px;">Your cart is empty.</p>';
-        } else {
-            window.cart.forEach((item, index) => {
-                const itemRow = document.createElement('div');
-                itemRow.style.cssText = "display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #eee; padding-bottom:8px;";
-                
-                itemRow.innerHTML = `
-                    <div>
-                        <strong style="display:block;">${sanitizeInput(item.name)}</strong>
-                        <span style="color:#666;">RM ${item.price.toFixed(2)}</span>
-                    </div>
-                    <button onclick="removeItem(${index})" style="background:#ff4d4d; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:0.8rem;">Remove</button>
-                `;
-                list.appendChild(itemRow);
-                total += item.price;
-            });
-        }
-        if (totalSpan) totalSpan.innerText = total.toFixed(2);
-    }
-
-    window.removeItem = (index) => {
-        window.cart.splice(index, 1);
-        updateCartButton();
-        renderCart();
-    };
-
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
-            if (window.cart.length === 0) {
-                alert("Please add items to your cart first!");
-                return;
-            }
-            
-            const phoneNumber = "60175566130";
-            let message = `*Order Confirmation from Kanmani Food Corner*\n`;
-            message += `------------------------------\n`;
-            
-            if (window.userProfile) {
-                message += `*Customer:* ${sanitizeInput(window.userProfile.name)}\n`;
-                message += `*Phone:* ${sanitizeInput(window.userProfile.phone)}\n`;
-                message += `*Address:* ${sanitizeInput(window.userProfile.address)}\n`;
-                message += `------------------------------\n`;
-            }
-
-            message += "I would like to order:\n";
-            const counts = {};
-            window.cart.forEach(item => {
-                const cleanName = sanitizeInput(item.name);
-                counts[cleanName] = (counts[cleanName] || 0) + 1;
-            });
-
-            for (const [name, qty] of Object.entries(counts)) {
-                const item = window.cart.find(i => sanitizeInput(i.name) === name);
-                message += `• ${qty}x ${name} (RM ${(item.price * qty).toFixed(2)})\n`;
-            }
-            
-            const total = window.cart.reduce((sum, item) => sum + item.price, 0);
-            message += `\n*Total Amount: RM ${total.toFixed(2)}*`;
-            message += `\nPayment: Cash on Delivery`;
-
-            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-        });
-    }
 });
             
