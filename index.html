@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,9 +22,9 @@
     <nav class="navbar">
         <div class="logo">KANMANI <span>FOOD CORNER</span></div>
         <ul class="nav-links">
-            <li><a href="#" id="nav-home">Home</a></li>
-            <li><a href="#" id="nav-menu">Menu</a></li>
-            <li><a href="#" id="nav-request">Requests & Support</a></li>
+            <li><a href="#home-section" id="nav-home">Home</a></li>
+            <li><a href="#menu-section" id="nav-menu">Menu</a></li>
+            <li><a href="#request-section" id="nav-request">Requests & Support</a></li>
         </ul>
         <div style="display: flex; gap: 10px; align-items: center;">
             <button id="user-btn" class="tab" style="padding: 8px 16px;">Login / Profile</button>
@@ -34,20 +33,20 @@
     </nav>
 
     <!-- Home Section (Hero Header) -->
-    <div id="home-section" class="hero">
+    <section id="home-section" class="hero">
         <div class="hero-content">
             <h1>Kanmani Food Corner</h1>
             <p>Freshly prepared food delivered to your heart in Lunas.</p>
         </div>
-    </div>
+    </section>
 
     <!-- Menu Section -->
-    <section id="menu-section" class="menu-container" style="display: none;">
+    <section id="menu-section" class="menu-container">
         <h2 class="section-title">Our Menu</h2>
         
         <div class="filter-tabs">
             <button class="tab filter-btn active" data-category="all">All</button>
-            <button class="tab filter-btn" data-category="rice">Rice</button>
+            <button class="tab filter-btn" data-category="rice">Rice & Mains</button>
             <button class="tab filter-btn" data-category="beverages">Beverages</button>
         </div>
 
@@ -127,7 +126,7 @@
     </section>
 
     <!-- Support Desk Section -->
-    <section id="request-section" class="request-feature" style="display: none;">
+    <section id="request-section" class="request-feature">
         <h2>Custom Orders & Support Desk</h2>
         <p>Submit a custom request, delivery inquiry, or complaint directly to our admin team.</p>
         
@@ -195,7 +194,7 @@
                         <input type="tel" id="reg-phone" placeholder="Phone Number" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                     </div>
                     <div style="margin-bottom: 10px;">
-                        <input type="password" id="reg-password" placeholder="Password (Must include letters & numbers)" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                        <input type="password" id="reg-password" placeholder="Password (Letters & Numbers)" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                     </div>
                     <div style="margin-bottom: 15px;">
                         <textarea id="reg-address" placeholder="Delivery Address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit;"></textarea>
@@ -208,7 +207,7 @@
 
                 <!-- Password Reset View -->
                 <form id="reset-form" style="margin-top: 15px; display: none;">
-                    <p style="font-size: 0.85rem; margin-bottom: 10px; color: #555;">Enter your registered email address to receive password details.</p>
+                    <p style="font-size: 0.85rem; margin-bottom: 10px; color: #555;">Enter your registered email address to recover your password details.</p>
                     <div style="margin-bottom: 10px;">
                         <input type="email" id="reset-email" placeholder="Registered Email Address" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                     </div>
@@ -245,7 +244,9 @@
         </div>
     </div>
 
-    <script src="food.js"></script>
+    <!-- Forced Cache-Busting Script Import -->
+    <script src="food.js?v=3.0"></script>
 </body>
-                    </html>
-                                                                  
+                </html>
+        
+                                                                
