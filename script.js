@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navigation logic for completely separated views
     function showHomeOnly() {
-        homeSection.style.display = 'flex';
+        homeSection.style.display = 'block';
         menuSection.style.display = 'none';
         requestSection.style.display = 'none';
     }
@@ -430,4 +430,4 @@ document.addEventListener('DOMContentLoaded', () => {
         window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
     });
 });
-    
+            
