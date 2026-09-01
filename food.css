@@ -14,6 +14,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: var(--white);
     color: #333;
@@ -34,7 +38,7 @@ body {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
 }
 
@@ -46,7 +50,7 @@ body {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 25px;
 }
 
 .nav-links a {
@@ -77,7 +81,7 @@ body {
 
 /* Hero Section */
 .hero {
-    height: 450px;
+    height: 400px;
     background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836');
     background-size: cover;
     background-position: center;
@@ -90,33 +94,34 @@ body {
 }
 
 .hero h1 {
-    font-size: 3rem;
+    font-size: 2.8rem;
     margin-bottom: 15px;
 }
 
-/* Menu Grid */
+/* Menu Section */
 .menu-container {
     padding: 60px 8%;
     max-width: 1200px;
     margin: 0 auto;
+    scroll-margin-top: 80px;
 }
 
 .section-title {
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .filter-tabs {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
     margin-bottom: 40px;
     flex-wrap: wrap;
 }
 
 .tab {
-    padding: 8px 25px;
+    padding: 8px 22px;
     border: 1px solid #ddd;
     background: white;
     border-radius: 20px;
@@ -137,7 +142,6 @@ body {
     gap: 30px;
 }
 
-/* Enhanced Food Card Layout */
 .food-card {
     border-radius: 15px;
     overflow: hidden;
@@ -150,22 +154,16 @@ body {
 }
 
 .food-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
     box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
-/* Food Image Enhancements */
 .food-card img {
     width: 100%;
-    height: 220px;
+    height: 200px;
     object-fit: cover;
     object-position: center;
-    background-color: #eee; /* Placeholder bg while loading */
-    transition: transform 0.4s ease;
-}
-
-.food-card:hover img {
-    transform: scale(1.03); /* Subtle zoom effect on hover */
+    background-color: #eee;
 }
 
 .card-body {
@@ -177,7 +175,7 @@ body {
 }
 
 .card-body h3 {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .card-body p {
@@ -213,11 +211,12 @@ body {
     background: var(--primary-gold);
 }
 
-/* Chat Section */
+/* Support Desk Section */
 .request-feature {
     text-align: center;
-    padding: 80px 8%;
+    padding: 60px 8%;
     background: var(--light-gray);
+    scroll-margin-top: 80px;
 }
 
 .btn-chat {
@@ -226,17 +225,14 @@ body {
     border: none;
     padding: 15px 40px;
     border-radius: 30px;
-    margin-top: 20px;
     cursor: pointer;
     font-weight: 600;
     font-size: 1rem;
     transition: 0.3s;
-    display: inline-block;
 }
 
 .btn-chat:hover {
     background-color: var(--whatsapp-dark);
-    transform: scale(1.05);
 }
 
 /* Modal / Cart Style */
@@ -277,15 +273,7 @@ body {
     color: #999;
 }
 
-/* Footer */
-.main-footer {
-    background: var(--dark-bg);
-    color: #999;
-    padding: 40px 20px;
-    text-align: center;
-}
-
-/* Mobile Responsive */
+/* Responsive */
 @media (max-width: 768px) {
     .nav-links { display: none; }
     .hero h1 { font-size: 2.2rem; }
