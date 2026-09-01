@@ -19,16 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const profileForm = document.getElementById('profile-form');
     const complaintForm = document.getElementById('complaint-form');
 
-    // Section Views Handling
-    const homeSection = document.getElementById('home-section');
-    const menuSection = document.getElementById('menu-section');
-    const requestSection = document.getElementById('request-section');
-
     const navHome = document.getElementById('nav-home');
     const navMenu = document.getElementById('nav-menu');
     const navRequest = document.getElementById('nav-request');
 
-    // Password Reset View Toggles
     const forgotPassLink = document.getElementById('forgot-pass-link');
     const backToRegLink = document.getElementById('back-to-reg-link');
     const authTitle = document.getElementById('auth-title');
@@ -52,30 +46,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/.test(password);
     }
 
-    // Navigation View Toggle Functions
-    function showHomeOnly() {
-        if (homeSection) homeSection.style.display = 'block';
-        if (menuSection) menuSection.style.display = 'none';
-        if (requestSection) requestSection.style.display = 'none';
+    // Direct Smooth Scrolling Navigation Handlers
+    if (navHome) {
+        navHome.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('home-section').scrollIntoView({ behavior: 'smooth' });
+        });
     }
 
-    function showMenuOnly() {
-        if (homeSection) homeSection.style.display = 'none';
-        if (menuSection) menuSection.style.display = 'block';
-        if (requestSection) requestSection.style.display = 'none';
+    if (navMenu) {
+        navMenu.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('menu-section').scrollIntoView({ behavior: 'smooth' });
+        });
     }
 
-    function showRequestOnly() {
-        if (homeSection) homeSection.style.display = 'none';
-        if (menuSection) menuSection.style.display = 'none';
-        if (requestSection) requestSection.style.display = 'block';
+    if (navRequest) {
+        navRequest.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('request-section').scrollIntoView({ behavior: 'smooth' });
+        });
     }
 
-    if (navHome) navHome.addEventListener('click', (e) => { e.preventDefault(); showHomeOnly(); });
-    if (navMenu) navMenu.addEventListener('click', (e) => { e.preventDefault(); showMenuOnly(); });
-    if (navRequest) navRequest.addEventListener('click', (e) => { e.preventDefault(); showRequestOnly(); });
-
-    // Category Filtering Logic (All / Rice / Beverages)
+    // Category Filter Functionality
     const filterBtns = document.querySelectorAll('.filter-btn');
     const foodCards = document.querySelectorAll('.food-card');
 
@@ -99,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUserNav();
     autoFillComplaintForm();
 
-    // Add to Cart Logic
+    // Add to Cart Handlers
     document.querySelectorAll('.btn-add').forEach((button) => {
         button.addEventListener('click', () => {
             const card = button.closest('.food-card');
@@ -114,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.style.background = "#c5a059";
             setTimeout(() => {
                 button.innerText = "Add to Cart";
-                button.style.background = "black";
+                button.style.background = "#111";
             }, 1000);
         });
     });
@@ -214,18 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('reg-password').value;
             const address = sanitizeInput(document.getElementById('reg-address').value);
 
-            if (!isValidEmail(email)) {
-                alert("Please enter a valid email address.");
-                return;
-            }
-
-            if (!isValidPhone(phone)) {
-                alert("Please enter a valid phone number.");
-                return;
-            }
-
-            if (!isValidPassword(password)) {
-                alert("Password must be at least 6 characters long and include both letters and numbers.");
+            if (!isValidEmail(email) || !isValidPhone(phone) || !isValidPassword(password)) {
+                alert("Please complete all fields with valid details. Password must contain letters & numbers.");
                 return;
             }
 
@@ -249,12 +232,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             emailjs.send('service_52froww', 'template_0l5m72k', adminTemplateParams)
                 .then(() => {
-                    alert("Registration successful! Notification sent to admin.");
+                    alert("Registration successful!");
                     userModal.style.display = 'none';
                 })
                 .catch((error) => {
-                    console.error("Email Notification Error:", error);
-                    alert("Registration saved successfully!");
+                    console.error("Email Error:", error);
+                    alert("Registration saved!");
                     userModal.style.display = 'none';
                 })
                 .finally(() => {
@@ -277,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const storedUser = JSON.parse(localStorage.getItem('kanmani_user'));
 
             if (!storedUser || storedUser.email.toLowerCase() !== resetEmail.toLowerCase()) {
-                alert("No account registered with this email address.");
+                alert("No registered account found with this email.");
                 return;
             }
 
@@ -293,13 +276,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             emailjs.send('service_52froww', 'template_0l5m72k', templateParams)
                 .then(() => {
-                    alert("Password details sent to your registered email!");
+                    alert("Password details sent to your registered email address.");
                     userModal.style.display = 'none';
                     resetForm.reset();
                 })
                 .catch((error) => {
                     console.error("EmailJS Error:", error);
-                    alert("Failed to send email. Please check your network connection.");
+                    alert("Failed to send reset email. Please try again later.");
                 })
                 .finally(() => {
                     submitBtn.innerText = "Send Password Email";
@@ -318,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const address = sanitizeInput(document.getElementById('prof-address').value);
 
             if (!isValidEmail(email) || !isValidPhone(phone)) {
-                alert("Please check your email and phone number input.");
+                alert("Please check your email and phone format.");
                 return;
             }
 
@@ -445,4 +428,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-                
+            
